@@ -1,0 +1,318 @@
+코딩애플 JavaScript 입문과 웹 UI개발_Level 1-2
+
+★모달창만들기와 간단한 애니메이션
+=css로 애니메이션 만들것임.
+
+        $('#login').on('click', function(){
+          $('.black-bg').fadeIn();
+        });
+이런식으로 제이쿼리에 fadeIn();으로 변경해서 넣으면 느려질 수 있다.
+★★때문에 ui에 애니메이셔을 추가하려면 가능하면 css만으로 처리하는게 좋다.
+
+<★★★css로 애니메이션 만드는 법칙>
+one-way Ui애니메이션 만드는 법: A상태에서 B상태로 변하는 애니메이션.
+1. 시작스타일
+2. 최종스타일
+(위에 스타일 2가지를 class로 만들어 놔)
+3.원할 때 최종스타일로 변하라고 코드 짜
+4. transition 추가
+---------------------------------------------------
+//1. 시작스타일
+  .black-bg {
+(생략)
+    visibility : hidden;
+    opacity : 0;
+  }
+//visibility : hidden; 와 display:none; 차이는
+// display:none는 아예 없애버림. visibility : hidden;는 모습만 숨김.
+
+//2. 최종스타일
+  .show-modal {
+    visibility : visible;
+    opacity : 1;
+  } 
+
+//3.원할 때 최종스타일로 변하라고 코드 짜
+        $('#login').on('click', function(){
+          $('.black-bg').fadeIn();
+        });
+
+//4. transition 추가
+  .black-bg {
+	(생략)
+    transition : all 1s;
+  }
+★★접히는 애니메이션은 height 길이를 조절하면 된다. overflow:hidden;도 같이 씀.
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+★폼만들며 배워보는 if else
+폼만들며 배워보는 if else.html 파일에서, 
+        <form action="success.html"> //서버로 전송 되고 싶은 action="url주소" 넣기.
+          <div class="my-3">
+            <input type="text" class="form-control">
+           </div>
+           <div class="my-3">
+             <input type="password" class="form-control">
+           </div>
+           <button type="submit" class="btn btn-primary">전송</button>
+           <button type="button" class="btn btn-danger" id="close">닫기</button>
+        </form> 
+------------------------------------------------------------
+   <button type="button" class="btn btn-danger" id="close">닫기</button>
+에서  type="button"이걸 꼭 넣어야 에러가 없다.
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+★공백검사 숙제와 else if 문법
+숙제: 전송버튼 누르면 (이벤트리스너)★★★★★★여기부터 개어렵네
+저기 input에 입력한 값이 공백이면(조건문) 알림창alert(); 띄워주세요
+(아직 안배웠는데 if else 조건문이다.)★★★조건문을 언제 쓸지 잘 생각해!
+
+<조건문 쓰는 방법>
+if (조건) {  ※조건 안에는 80%확률로 비교 연산자를 넣는다. ==,<,<=,>,>=
+    조건이 참일 때 실행할 코드 
+    } else { //그게 아니면~이란뜻 , 위 조건이 참이 아닐 때 실행할 코드 }
+-----------------------------------------------
+document.getElementById('email').value == ''; //input에 입력한 값이 공백이랑 같냐는 연산자
+$('#send').on('click', function() { //이벤트 리스너
+	//이런 방식도 있지만 아래 방식이 알맞는다.
+        }) 내가 시도했을듯한 오답..
+-----------------------------------------------
+이것이 정답.폼만들며 배워보는 if else.html 파일 보슈
+      $('form').on('submit', function(e) { 
+          if  (document.getElementById('email').value == '') {
+            alert('아이디 입력하슈')
+            e.preventDefault();
+            //참고) form전송 막으려면 e.preventDefault(); function(여기에 e 넣고)
+          }
+        });
+-----------------------------------------------------
+아이디, 비번 인풋값 둘다 공백이면 알림창 띄우기+비번 6자리 이상 써라는 알림창. 정답.
+$('form').on('submit', function(e){
+  if (document.getElementById('email').value == '') {
+    alert('아이디 입력하쇼');
+  } 
+  if (document.getElementById('pw').value == ''){
+    alert('비번 입력하쇼')
+  }
+  if (document.getElementById('pw').value.length < 6){ //비번 6자리 이상 조건문.
+    alert('왜케 비번이 짧음?')
+  }
+});
+-----------------------------------------------
+        //else if문법 : 조건식을 연달아 쓰고 싶을 때. 몇번이고 사용 가능.
+        if ( 1 == 3 ) { 
+          console.log('맞아요1');
+        } else if ( 3 == 3 ) { 
+          console.log('맞아요2');
+        } else if ( 4 == 3 ) { 
+          console.log('맞아요3');
+        } else ( 2 == 3 ) { 
+          console.log('맞아요4');
+        } 
+//이러면 맞아요2가 출력된다. 아닌거는 컴퓨터가 안읽음.
+-----------------------------------------------
+★★★★★위의 코드와 다른 점은 else문이 없다는 것이다.(조건식이 안맞으면 컴퓨터가 안읽어)
+if되있는 부분은 항상 컴퓨터가 읽고 검사한다.
+        if ( 1 == 3 ) { 
+          console.log('맞아요1');
+        } if ( 3 == 3 ) { 
+          console.log('맞아요2');
+        }
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+★input, change 이벤트와 and, or 연산자
+input에서 발생하는 이벤트들.
+document.getElementById('email').addEventListener('input', function() {
+}) // ←이것은 email(인풋)의 input 값이 변할 때마다 실행되는 이벤트.
+document.getElementById('email').addEventListener('change', function() {
+}) //← email(인풋)의 input 값이 변할 때 실행되는 이벤트2 위에꺼랑 같은 의미이다.
+위 input과  change 이벤트의 차이점은 input은 변할때마다 실행.
+change는 변해도 다른데 마우스 찍어야(focus를 잃을 때) 이벤트 실행
+즉, 두개 같이 쓰면 위험하다..
+----------------------------------------------
+if ( 조건식) {
+  }
+조건식 안에 true/false의  boolean type을 넣어야 잘 작동함
+if (1 != 1) 1이 1과 다르냐? = false출력
+ if (1 != 2) 1이 2와 다르냐?  = true 출력
+ if (1 === '1') 엄격한 비교(false출력)
+ if (1 == '1') 느슨한 비교(true출력)
+ if (1 !== '1') 1이 문자1은 다르냐? 엄격한 비교 (true 출력)
+
+if(1) true출력  / if(0) false출력
+true로 인식하는 자료들: 0을 제외한 숫자 / '문자' / [] / {}
+false로 인식하는 자료들: 0 / '' / null / undefined / NaN
+
+조건 2개 이상을 동시에 비교하고 싶다면 && 그리고 ||연산자
+if(1 == 1 && 2 == 2) &&는 and기호(둘다 참이냐)
+if(1 == 1 || 2 == 2) ||는 or기호(둘중 하나이상이 참이냐)
+if((1 == 1 && 2 == 2) && 3==3) 여러개 가능.소괄호 가능.
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+★if/else, function 실력향상 과제
+문제1)삼육구 게임.
+내가 쓴 오답=
+        function 삼육구게임((n % 3) =0) {
+          console.log('박수짝')
+        }
+--------------------------------------
+★★★★삼육구 게임. 정답=
+function 삼육구게임(num){
+  if (num % 3 == 0) {
+    console.log("박수");
+  } else {
+    console.log('통과');
+  }
+}
+삼육구게임(15);
+---------------------------------------
+문제2)9에서 박수 2번 치는 삼육구 게임.
+내가쓴 오답=
+function 삼육구게임(num){
+  if (num % 3 == 0) {
+    console.log("박수");
+  } if(num % 9 == 0) {
+	console.log("박수박수");
+} else {
+    console.log('통과');
+  }
+}
+삼육구게임(15);
+---------------------------------------
+★★근데 if문 추가할지 else if 문 추가할지 그런건 알아서 결정해보시면 됩니다. 
+else if 문을 쓰면 그게 아니면 만약에~ 라는 뜻이기 때문에
+9의 배수가 아닐 때만 else if 뒤의 코드가 실행
+★★★★9에서 박수 2번 치는 삼육구 게임. 정답=
+function 삼육구게임(num){
+  if (num % 9 == 0) {
+    console.log("박수x2");
+  } else if (num % 3 == 0){
+    console.log('박수');
+  } else {
+    console.log('통과');
+  }
+}
+삼육구게임(18);
+
+참고) 함수이름 작명시 맨 처음 단어는 숫자를 사용하시면 안됩니다.
+참고2) 페이지 내의 다른 곳에서 자바스크립트 문법 에러가 뜨는 경우 다른 코드도 실행이 제대로 되지 않습니다.
+★★★★자바스크립트 else if 쓸때랑 else쓸때랑  if else쓸때 차이점 알기.★★★★
+else if는 조건 여러개 있어도 종합해서 한번만 답나옴.ㅋ
+-------------------------------------------------
+문제3)공인중개사 1차 시험은 개론, 민법 2개 과목이 있습니다.
+과목마다 100점 만점이지만 두 과목 합해서 120점 이상이면 합격시켜줍니다. 
+다만 한 과목이 40점 미만이면 과락으로 불합격됩니다.  
+과목 점수 2개를 파라미터로 입력하면 합격인지 불합격인지 여부를 콘솔창에 출력하는 함수
+합격했냐(70, 70); 실행시 총점 120이상이니 콘솔창에 '합격'이 출력되어야합니다.
+합격했냐(30, 100); 실행시 하나 과락이니 콘솔창에 '불합격'이 출력되어야합니다.
+합격했냐(50, 50); 실행시 총점 120미만이니 콘솔창에 '불합격'이 출력되어야합니다.
+★★★정답="a가 40미만이거나 b가 40 미만일 경우엔 불합격 출력"
+"그게 아니면 a + b 가 120 이상이면 합격을 출력.... a + b 가 120 미만이면 불합격 출력"
+function 합격했냐(a, b){
+  if ( a < 40 || b < 40 ) {
+    console.log('불합격')
+  } else if (a + b >= 120) {
+    console.log('합격')
+  } else {
+    console.log('불합격')
+  }
+}
+---------------------------------------------
+문제4)합격판독기에 0에서 100사이 숫자가 아닌걸 입력하면 장난치지 말라고 alert를 띄우려면 어떻게 코드짜야할까요?
+★★내가 쓴 정답 
+function 합격했냐(a, b){
+if (0<= a && a <= 100){
+    console.log('정상시험')
+  } else if  (0<= b && b <= 100) {
+    console.log('정상시험')
+  }
+  else {
+    console.log('장난치지마')
+  }
+}
+합격했냐(-30,120);
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+★변수문법과 Dark mode 버튼만들기
+버튼 누르면 내부 글자를 Dark → Light로 변경
+2회 누르면 다시 Dark / 3회 누르면 Light / 4회 다크...........
+
+한글로 먼저 써보는 습관. 규칙을 파악해 보자
+        badge 1회 클릭시 내부 글자를 Light로 변경 (홀수) 규칙
+        badge 2회 클릭시 내부 글자를 dark로 변경 (짝수) 규칙
+        badge 3회 클릭시 내부 글자를 Light로 변경
+        badge 4회 클릭시 내부 글자를 dark로 변경
+→어딘가에 몇번 눌렀나 기록을 해야할듯?
+----------------------------------------
+★★자료 '잠깐' 저장하는 변수문법는? var 변수명=넣을 자료;
+        var 나이 = 20;
+        var 이름 = 'kim';
+        console.log(나이);
+        console.log(이름); 여기서 = 등호는 '할당'이란 뜻이다. 우측꺼는 좌측에 할당.
+var 변수명 = document.getElementById();
+----------------------------------------
+        var count = 0; //뱃지 클릭 횟수
+        $('.badge').on('click', function() {
+          count = count + 1;
+	    
+        })
+※count +=1;랑 count++;와 같은 표현.
+※count -=1;는 1씩 빼달란 뜻.
+※count = count + 1; 카운트에 1씩 더해서 카운트(좌측)에 넣어주세요.
+----------------------------------------
+나의 오답=
+        var count = 0; //뱃지 클릭 횟수
+        $('.badge').on('click', function() {
+          count = count + 1;
+          if (count % 2 =1) {
+            document.getElementsByClassName('.navbar')[0].classList.add('light')
+          } else {
+            document.getElementsByClassName('.navbar')[0].classList.add('dark')
+          }
+          console.log(count);
+        })
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+★변수 심화학습시간 & 저번시간 숙제
+변수 심화학습시간 & 저번시간 숙제.html 파일 참조.
+버튼 누르면 내부 글자를 Dark → Light로 변경
+숙제 1차 정답=
+        var count = 0; //뱃지 클릭 횟수
+        $('.badge').on('click', function() {
+          count = count + 1;
+          if (count % 2 ==1 ) {
+            $('.badge').html('Light ♧')
+            console.log('Light ♧');
+          } else {
+            $('.badge').html('Dark ♧')
+            console.log('Dark ♧');
+          }
+        })
+//여기까지 누를 때마다 다크인지 라이트인지 나옴. 이제는 클래스 명 추가하는 코드 써보자
+body에   <body class="dark"> 다크 클래스 삽입.
+<nav class="navbar navbar-light bg-light">를 
+navbar-dark bg-dark로 변경하면 다크 모드됨. 클래스명을 변경하는 js를 짜면 된다.
+----------------------------------------------
+<변수의 선언, 할당, 범위>
+var 이름; 에서 var 이름은 선언을 뜻한다.(변수 만들겠습니다) //undefined 출력됨.정의되지 않았단 의미.
+var 이름 = 'kim'; 에서 이름 = 'kim';은 할당을 뜻한다.(변수에 자료넣기)
+var 이름 = 'kim'; 는 선언과 할당이다.
+이름 = 'han'; 재할당. 재할당은 자유다.
+
+function 함수() {
+          var 이름 = 'han';
+          console.log(이름);
+        }
+함수(); //var은 function함수 밖으로 나가면 사용 불가능.해서 함수();로 써야함.
+----------------------------------------------
+함수 안에서 변수만들면 사용가능 범위는 함수 내부
+★★var let const차이
+let name = 'kim'; //let과 const는 재선언이 불가능 하다.실수를 방지할 수 있다! 
+let name = '강'; //이렇게 재선언하면 에러난다.
+const 네임 = 'an'; // const는 재선언도, 재할당도 불가능 하다. 1번넣었을때 바뀌지 않는 값.상수.
+var 이름='han'; // var은 function함수 밖으로 나가면 사용 불가능.
+var는 재선언과 재할당이 가능하다.
+
+변수 정리>
+var는 재선언o / 재할당 o /범위는 function
+let은 재선언x / 재할당o / 범위는 {}
+const는 재선언x /재할당 x / 범위는 {}
+
+
+
+
+
