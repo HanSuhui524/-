@@ -1,0 +1,102 @@
+코딩애플 JavaScript 입문과 웹 UI개발_Level 2-2
+
+♣스크롤 이벤트로 만드는 재밌는 기능들
+스크롤바 끝까지 내리면 상품을 더 보여주기. scroll 이벤트리스너
+window.addEventListener('scroll', function() { })
+window는 html 페이지를 의미. 스크롤 움직일때마다 이런 이벤트 이러날 거라는 함수
+document도 html 페이지를 의미. 스크롤은 윈도우 사용.
+
+window.addEventListener('scroll', function() {
+          console.log(window.scrollY);   //가로는  scrollX
+        });  //★★얼마나 스크롤 내렸냐를 보여주는 window.scrollY
+window.scrollY = window.pageYOffset 동일한 기능
+
+★★스크롤 좌표로 강제로 가게하는 window.scrollTo(0,100);
+이 과정에서 부드럽게 이동되는데 bootstrap 때문이다.
+★★css 파일 맨위에 
+:root {
+  scroll-behavior: auto;
+} //이거 쓰면 부드럽게 동작하는걸 막아줌.
+
+★★현재 위치부터 강제로 스크롤 하기 window.scrollBy(x,y); 
+★★현재 스크롤바 위치 출력  $(window).scrollTop(); (window.scrollY와 같음)
+★★현재 스크롤바 100만큼 이동 $(window).scrollTop(100);
+
+----------------------------------------------
+숙제1. 스크롤바를 100px 내리면 로고 폰트사이즈를 작게 만들어오십시오.
+반대로 100px 미만으로 내리면 로고 폰트사이즈를 크게 만들어옵시다.
+
+if(페이지 스크롤바 100이상 내리면) {
+          로고폰트 사이즈 줄이기 }
+
+if(window.scrollY > 100) {
+   $('.navbar-brand').css('font-size','20px'); } 이렇게 하면 1회만 됨.
+
+이벤트 리스너로 해주면 계속 사용 가능!!
+이벤트 리스너는 약 1초에 60번정도 사용이 가능.
+        $(window).on('scroll', function(){
+          if(window.scrollY > 100) {
+          $('.navbar-brand').css('font-size','20px');
+        } else {
+          $('.navbar-brand').css('font-size','30px');
+        }
+        })
+-------------------------------------------------
+숙제2. 회원약관 박스를 거의 끝까지 스크롤하면 alert를 띄워줍시다.
+div의 스크롤바 내릴 양=div의 실제높이
+※일반 div박스에 window를 설정할 수 없다.
+
+<div class="lorem" style="width: 200px; height: 100px; overflow-y: scroll">
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fuga officiis reprehenderit iste totam mollitia eaque consequatur, accusantium in aut itaque neque vel eos facilis natus velit hic inventore rem tenetur.
+</div>
+
+$('.lorem').on('scroll', function() {
+  var 스크롤양 = document.querySelector('.lorem').scrollTop;
+  var 실제높이 = document.querySelector('.lorem').scrollHeight;
+  var 눈에보이는div높이 = document.querySelector('.lorem').clientHeight;
+
+  if(스크롤양 + 눈에보이는div높이 > 실제높이 -2) {
+      alert('다읽음')
+	}
+  console.log(눈에보이는div높이, 스크롤양, 실제높이);
+        })
+스크롤바를 끝까지 내려도 실제 높이와 일치하진 않는다
+이유는 스크롤탑의 특징 때문이다. 스크롤바 내린 거리가 보여지는 화면을 제외한 값
+따라서 div의 스크롤바 내릴 양+눈에보이는div높이y값 =div의 실제높이
+눈에 보이는 div값이 완벽하지 않으므로 실제높이에서 -2정도로 빼준다.
+※주의★이벤트 리스너는 약 1초에 60번정도 사용이 되다 보니까, alert창이 여러번 뜬다
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+♣스크롤 이벤트 숙제 해설 & 페이지 스크롤 응용
+//현재 페이지 로드 완료시 실행해야 정확. body태그 끝나기 전에 넣기.
+document.documentElement는 document.querySelector('html').랑 같은말
+
+document.querySelector('html').scrollTop;  //현재 웹페이지 스크롤양
+document.querySelector('html').scrollHeight; //현재 웹페이지 실제높이
+document.querySelector('html').clientHeight; //현재 웹페이지 보이는 높이임
+
+페이지 스크롤 기능들. 배운점:
+1. 스크롤바 조작할 때 마다 코드실행가능하구나
+2. 박스의 숨겨진 실제 높이도 구할 수 있구나 
+3. 스크롤내린 양도 구할 수 있군
+문법은 필요할 때 찾아쓰면 됩니다
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+♣탭기능 만들며 배우는 for 반복문
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+♣탭기능 만들며 배우는 for 반복문2
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+♣이벤트 버블링과 이벤트관련 함수들
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+♣이벤트 버블링 응용과 dataset
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+♣쓸만한 자바스크립트 라이브러리들
+
+
+
+
+
+
