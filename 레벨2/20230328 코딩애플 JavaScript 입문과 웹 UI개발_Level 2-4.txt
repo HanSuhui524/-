@@ -1,102 +1,231 @@
-코딩애플 JavaScript 입문과 웹 UI개발_Level 2-2
+코딩애플 JavaScript 입문과 웹 UI개발_Level 2-4
 
-♣스크롤 이벤트로 만드는 재밌는 기능들
-스크롤바 끝까지 내리면 상품을 더 보여주기. scroll 이벤트리스너
-window.addEventListener('scroll', function() { })
-window는 html 페이지를 의미. 스크롤 움직일때마다 이런 이벤트 이러날 거라는 함수
-document도 html 페이지를 의미. 스크롤은 윈도우 사용.
-
-window.addEventListener('scroll', function() {
-          console.log(window.scrollY);   //가로는  scrollX
-        });  //★★얼마나 스크롤 내렸냐를 보여주는 window.scrollY
-window.scrollY = window.pageYOffset 동일한 기능
-
-★★스크롤 좌표로 강제로 가게하는 window.scrollTo(0,100);
-이 과정에서 부드럽게 이동되는데 bootstrap 때문이다.
-★★css 파일 맨위에 
-:root {
-  scroll-behavior: auto;
-} //이거 쓰면 부드럽게 동작하는걸 막아줌.
-
-★★현재 위치부터 강제로 스크롤 하기 window.scrollBy(x,y); 
-★★현재 스크롤바 위치 출력  $(window).scrollTop(); (window.scrollY와 같음)
-★★현재 스크롤바 100만큼 이동 $(window).scrollTop(100);
-
-----------------------------------------------
-숙제1. 스크롤바를 100px 내리면 로고 폰트사이즈를 작게 만들어오십시오.
-반대로 100px 미만으로 내리면 로고 폰트사이즈를 크게 만들어옵시다.
-
-if(페이지 스크롤바 100이상 내리면) {
-          로고폰트 사이즈 줄이기 }
-
-if(window.scrollY > 100) {
-   $('.navbar-brand').css('font-size','20px'); } 이렇게 하면 1회만 됨.
-
-이벤트 리스너로 해주면 계속 사용 가능!!
-이벤트 리스너는 약 1초에 60번정도 사용이 가능.
-        $(window).on('scroll', function(){
-          if(window.scrollY > 100) {
-          $('.navbar-brand').css('font-size','20px');
-        } else {
-          $('.navbar-brand').css('font-size','30px');
-        }
-        })
--------------------------------------------------
-숙제2. 회원약관 박스를 거의 끝까지 스크롤하면 alert를 띄워줍시다.
-div의 스크롤바 내릴 양=div의 실제높이
-※일반 div박스에 window를 설정할 수 없다.
-
-<div class="lorem" style="width: 200px; height: 100px; overflow-y: scroll">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fuga officiis reprehenderit iste totam mollitia eaque consequatur, accusantium in aut itaque neque vel eos facilis natus velit hic inventore rem tenetur.
-</div>
-
-$('.lorem').on('scroll', function() {
-  var 스크롤양 = document.querySelector('.lorem').scrollTop;
-  var 실제높이 = document.querySelector('.lorem').scrollHeight;
-  var 눈에보이는div높이 = document.querySelector('.lorem').clientHeight;
-
-  if(스크롤양 + 눈에보이는div높이 > 실제높이 -2) {
-      alert('다읽음')
-	}
-  console.log(눈에보이는div높이, 스크롤양, 실제높이);
-        })
-스크롤바를 끝까지 내려도 실제 높이와 일치하진 않는다
-이유는 스크롤탑의 특징 때문이다. 스크롤바 내린 거리가 보여지는 화면을 제외한 값
-따라서 div의 스크롤바 내릴 양+눈에보이는div높이y값 =div의 실제높이
-눈에 보이는 div값이 완벽하지 않으므로 실제높이에서 -2정도로 빼준다.
-※주의★이벤트 리스너는 약 1초에 60번정도 사용이 되다 보니까, alert창이 여러번 뜬다
-
-ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-♣스크롤 이벤트 숙제 해설 & 페이지 스크롤 응용
-//현재 페이지 로드 완료시 실행해야 정확. body태그 끝나기 전에 넣기.
-document.documentElement는 document.querySelector('html').랑 같은말
-
-document.querySelector('html').scrollTop;  //현재 웹페이지 스크롤양
-document.querySelector('html').scrollHeight; //현재 웹페이지 실제높이
-document.querySelector('html').clientHeight; //현재 웹페이지 보이는 높이임
-
-페이지 스크롤 기능들. 배운점:
-1. 스크롤바 조작할 때 마다 코드실행가능하구나
-2. 박스의 숨겨진 실제 높이도 구할 수 있구나 
-3. 스크롤내린 양도 구할 수 있군
-문법은 필요할 때 찾아쓰면 됩니다
-ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-♣탭기능 만들며 배우는 for 반복문
-
-ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-♣탭기능 만들며 배우는 for 반복문2
-
-ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 ♣이벤트 버블링과 이벤트관련 함수들
+검은 배경 누르면 모달창 닫는 기능 만들기
+맨위 <div class="black-bg">가 그 검은 배경임.
 
+document.querySelector('.black-bg').addEventListener('click',
+ function() {
+   document.querySelector('.black-bg').classList.remove('show-modal')
+        })
+이렇게까지 하면 아무데나 눌러도 다 닫혀 버림.
+class="black-bg" 하위안에 있는 모든것들도 선택한걸로 포함이 되버렸음.
+모든 브라우저는 이벤트 버블링이 일어남
+★★이벤트 버블링: 이벤트가 상위 html로 퍼지는 현상
+
+★★유용한 이벤트 관련 함수들:
+document.querySelector('.black-bg').addEventListener('click',
+	function(e) { //괄호 사이에 'e' 넣기
+	e.target; //★★유저가 실제로 누른 곳. 이벤트가 발생한 곳 e.target
+	e.currentTarget;
+	//★★이벤트 리스너 달린곳->'.black-bg'
+	//이것을  e.currentTarget; 또는 this라고 함.
+	e.preventDefault(); // ★★이벤트 기본동작 막아줌. 실행 안되게 함.
+	e.stopPropagation(); //★★내 상위 요소로 이벤트 버블링 막아줌.
+-----------------------------------------
+내가 실제로 누른게 까만 배경이면
+모달창을 닫아주세요
+document.querySelector('.black-bg').addEventListener('click',
+  function(e) {
+    if (내가 실제로 누른거 == 까만 배경) {
+      document.querySelector('.black-bg').classList.remove('show-modal')
+          }
+        })
+※document.querySelector()결과와 $() 결과는 다르게 생김.
+★★ 배운것:
+1. 이벤트 버블링은 항상 일어남
+2. 이벤트 관련 기능들 사용가능
 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 ♣이벤트 버블링 응용과 dataset
+[detail.html 파일과 tab.js파일]
+for (let i = 0; i < 3; i++) {
+  $(".tab-button")
+    .eq(i)
+    .on("click", function () {
+      $(".tab-button").removeClass("orange");
+      $(".tab-button").eq(i).addClass("orange");
+      $(".tab-content").removeClass("show");
+      $(".tab-content").eq(i).addClass("show");
+    });
+}
+이게 직관적이고 좋음. 하지만 함수로 축약해 보겠음...
+-------------------------------------------
+for (let i = 0; i < 3; i++) {
+  $(".tab-button").eq(i).on("click",
+	function () {
+      탭열기()   // 이렇게 하면 잘안됨.
+    });
+}
+function 탭열기() {
+  $(".tab-button").removeClass("orange");
+  $(".tab-button").eq(i).addClass("orange");
+  $(".tab-content").removeClass("show");
+  $(".tab-content").eq(i).addClass("show");
+}
+★★축약할 코드에 변수가 있으면 변수를 파라미터로 바꿔야 잘됨
+★★함수로 축약할 때 변수 있으면 파라미터로 바꿔보기.
 
+★정답=
+for (let i = 0; i < 3; i++) {
+  $(".tab-button").eq(i).on("click",
+	function () {
+      탭열기(i);
+    });
+}
+function 탭열기(i) {
+  $(".tab-button").removeClass("orange");
+  $(".tab-button").eq(i).addClass("orange");
+  $(".tab-content").removeClass("show");
+  $(".tab-content").eq(i).addClass("show");
+}
+---------------------------------------------
+★★탭기능 다르게 만들기-> 이벤트리스너 1개만 쓰기
+이벤트 리스너 쓸때마다 램 용량을 차지함.적게 쓸수록 램 여유. 성능적 이유
+
+$('.list').click(function() {
+  지금 누른게 버튼0이면 탭열기(0)
+})
+↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
+$('.list').click(function() {
+  if(e.target == 버튼0) {
+    탭열기(0)
+  }
+  지금 누른게 버튼 1이면 탭열기(1)
+  지금 누른게 버튼 2이면 탭열기(2)
+})
+↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
+★★이벤트 버블링을 알고 있으면 이벤트리스너 많이 필요없음
+$(".list").click(function (e) {
+  if (e.target == document.querySelectorAll(".tab-button")[0]) {
+    탭열기(0);
+  }
+  if (e.target == document.querySelectorAll(".tab-button")[1]) {
+    탭열기(1);
+  }
+  if (e.target == document.querySelectorAll(".tab-button")[2]) {
+    탭열기(2);
+  }
+-----------------------------------------
+★★오늘의 상식: html 태그에 몰래 정보 숨기기 가능
+숨겼던 자료 출력은
+셀렉터.dataset.자료이름
+ <li class="tab-button" data-id="0">Products</li> =>html body내용
+console.log(document.querySelector(".tab-button").dataset.id);
+=> 자바스크립트내용. 값은 0
+
+방금 내용을 적용해보자.
+$(".list").click(function (e) {
+    탭열기(0)
+    //내가 0번 누르면 탭열기(0)
+    //내가 1번 누르면 탭열기(1)
+    //내가 2번 누르면 탭열기(2)
+});
+↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
+$(".list").click(function (e) {
+    탭열기(지금 누른 버튼에 숨겨져 있는 data-id값)
+	//이러면 if문이 필요없지
+
+    //내가 0번 누르면 탭열기(0)
+    //내가 1번 누르면 탭열기(1)
+    //내가 2번 누르면 탭열기(2)
+});
+↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
+$(".list").click(function (e) {
+  탭열기(e.target.dataset.id);
+});
+
+※오늘 배운 것들
+1. 함수로 축약할 때 변수 있으면 파라미터로 바꿔보기.
+(이벤트 버블링 응용과 dataset 강의 부분)
+2. data-id로 몰래 숨기기 가능
+3.이벤트리스너 1개만 써도 개발 가능할 수도
 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 ♣쓸만한 자바스크립트 라이브러리들
+직접 자바스크립트 코드를 처음부터 짜기 귀찮으면
+남들이 만들어놓은 라이브러리를 사용해도 됩니다.
+UI 개발도 마찬가지로 복사 붙여넣기식으로 멋진 UI 개발이 가능
 
+1. Swiper
+캐러셀 (이미지슬라이드되는거) 만들고 싶으면 직접 코드 짜도 되겠지만
+좀 이쁘게 아니면 쉽게 여러기능을 만들고 싶으면 Swiper 라이브러리 써.
+호환 잘되고 이미지 lazy loading 이런 것도 되고 터치/드래그도 됨.
 
+https://swiperjs.com/get-started#use-swiper-from-cdn
+여기가서 튜토리얼 그대로 js 파일, css 파일을 다운받아서 첨부한 뒤에
+html css js 예제코드 복사붙여넣기하면 캐러셀이 나옵니다.
+사용법도 홈페이지 참고. 
+------------------------------------------------
+2. Chart.js 
+웹페이지에 차트만들고 싶으면 씁니다.
+실제 서비스면 관리자, admin 페이지 만들 때도 많을텐데 거기서 통계를 이쁘게 보여줄 때 유용하겠군요.
+div 박스에 css 스타일 넣어서 그래프만들고 그림그리고 해도 되겠지만 그럴 바엔 저거 쓰는게 낫습니다. 
+코인거래소 같은 곳에는 더 프로페셔널한 유료 차트라이브러리 같은걸 쓰기도 합니다. 
 
+https://cdnjs.com/libraries/Chart.js
+이런데 가서 js 파일 다운받거나 cdn 버전으로 구해서 html 파일에 넣으면 설치끝입니다.
 
+https://www.chartjs.org/docs/latest/
+그리고 Chart.js 홈페이지 예제 코드 아무데나 붙여넣기 하면 차트나옴 
+------------------------------------------------
+3. Animate On Scroll
+스크롤 내리면 요소가 서서히 등장하는 애니메이션을 만들고 싶을 때 쓰면 좋습니다.
+유저가 스크롤바를 ... div 박스 현재 y좌표만큼 내리면 애니메이션 보여달라고 코드짜면 되긴 하는데 귀찮으니까요 
+
+https://github.com/michalsnik/aos
+여기서 css파일, js 파일 cdn버전 찾아서 html 파일에 넣고
+그 다음에 밑에 <script> 태그 열어서 
+
+<script>
+  AOS.init();
+</script>
+이러면 설치 끝이라는군요 
+
+https://michalsnik.github.io/aos/
+그 다음에 위 사이트에서 예제 코드 따라서 복붙하면 구현 끝인듯요 
+<div data-aos="fade-up"></div>
+원하는 박스에 이런거 추가하면 된다고합니다. 
+시간, 방향 설정가능하고 원하는 클래스명 부착도 되는군요 
+------------------------------------------------
+4. EmailJS
+원래 이메일 전송은 서버가 해야하지만 Gmail 이런거 서버를 잠깐 빌리면
+자바스크립트만으로 이메일 전송이 가능합니다. 
+유저가 내 이메일 계정으로 이메일 전송도 가능하고 
+내 이메일 계정으로 남에게 이메일 전송도 가능함 
+
+https://www.emailjs.com/docs/introduction/how-does-emailjs-work/
+이 사이트 가서 가입하고 계정만들고
+튜토리얼 그대로 복붙하고 거기에 내가 방금 만든 EmailJS 계정아이디만 잘 채우면 됩니다. 
+------------------------------------------------
+5. Lodash
+array, object, 문자, 숫자 자료를 다루기 편해지는 기본함수들을 제공해줍니다.
+예를 들어서 array 자료에 있는 마음에 안드는 'a' 라는 문자를 제거하고 싶으면
+직접 반복문 돌리거나 filter 함수 쓰거나 그러면 되는건데 
+Lodash 설치해놨으면 그냥 _.pull(어레이자료, 'a'); 쓰면 됩니다. 
+
+https://lodash.com/
+설치파일은 4kb 밖에 안된다는군요
+하지만 초보라면 저런거 의존하는것보다 직접 어렵게 반복문 써서 알고리즘 짜는 것도 좋은 연습이 됩니다.
+------------------------------------------------
+6. React 아니면 Vue 
+페이지가 너무 많아서 UI 재활용이 자주 필요한 사이트나
+모바일 앱처럼 페이지 이동없이 동작하는 Single Page Application을 만들 때 유용한 자바스크립트 라이브러리입니다. 
+요즘은 원래 용도와 관계없이 마구잡이로 씁니다. 안쓰면 큰일나는줄 아는 사람이 많음
+사용법은 길어서 홈페이지 내 무료강의 들어보든가 하십시오
+------------------------------------------------
+7. Fullpage.js
+웹페이지를 PPT처럼 만들어줍니다.
+버튼누르면 다음 슬라이드보여주는데 하지만 이런 UI는 유행이 지났습니다.
+상업적 이용은 아마 유료임 
+
+https://alvarotrigo.com/fullPage/
+이건 동작예시
+
+https://github.com/alvarotrigo/fullPage.js/tree/master/lang/korean#fullpagejs
+여기서 css, js 파일을 cdn 식으로 설치하거나 그러면 되고
+예시 html과 js 코드를 복사붙여넣기하면 완성입니다. 
 
 

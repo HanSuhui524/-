@@ -69,6 +69,17 @@
      
     </body>
       <script>
+        document.querySelector('.black-bg').addEventListener('click',
+        function(e) {
+
+          if (e.target == document.querySelector('.black-bg')) {
+            document.querySelector('.black-bg').classList.remove('show-modal');
+          }
+        })
+
+
+
+
 //  숙제1. 스크롤바를 100px 내리면 로고 폰트사이즈를 작게 만들어오십시오.
 // 반대로 100px 미만으로 내리면 로고 폰트사이즈를 크게 만들어옵시다.
         $(window).on('scroll', function(){

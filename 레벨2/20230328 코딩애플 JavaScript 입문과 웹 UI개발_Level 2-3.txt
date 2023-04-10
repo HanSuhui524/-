@@ -1,0 +1,135 @@
+코딩애플 JavaScript 입문과 웹 UI개발_Level 2-3
+
+♣스크롤 이벤트로 만드는 재밌는 기능들
+스크롤바 끝까지 내리면 상품을 더 보여주기. scroll 이벤트리스너
+window.addEventListener('scroll', function() { })
+window는 html 페이지를 의미. 스크롤 움직일때마다 이런 이벤트 이러날 거라는 함수
+document도 html 페이지를 의미. 스크롤은 윈도우 사용.
+
+window.addEventListener('scroll', function() {
+          console.log(window.scrollY);   //가로는 scrollX
+        });  //★★얼마나 스크롤 내렸냐를 보여주는 window.scrollY
+window.scrollY = window.pageYOffset 동일한 기능
+
+★★스크롤 좌표로 강제로 가게하는 window.scrollTo(0,100);
+이 과정에서 부드럽게 이동되는데 bootstrap 때문이다.
+★★css 파일 맨위에 
+:root {
+  scroll-behavior: auto;
+} //이거 쓰면 부드럽게 동작하는걸 막아줌.
+
+★★현재 위치부터 강제로 스크롤 하기 window.scrollBy(x,y); 
+★★현재 스크롤바 위치 출력  $(window).scrollTop(); (window.scrollY와 같음)
+★★현재 스크롤바 100만큼 이동 $(window).scrollTop(100);
+
+----------------------------------------------
+숙제1. 스크롤바를 100px 내리면 로고 폰트사이즈를 작게 만들어오십시오.
+반대로 100px 미만으로 내리면 로고 폰트사이즈를 크게 만들어옵시다.
+
+if(페이지 스크롤바 100이상 내리면) {
+          로고폰트 사이즈 줄이기 }
+
+if(window.scrollY > 100) {
+   $('.navbar-brand').css('font-size','20px'); } 이렇게 하면 1회만 됨.
+
+이벤트 리스너로 해주면 계속 사용 가능!!
+이벤트 리스너는 약 1초에 60번정도 사용이 가능.
+        $(window).on('scroll', function(){
+          if(window.scrollY > 100) {
+          $('.navbar-brand').css('font-size','20px');
+        } else {
+          $('.navbar-brand').css('font-size','30px');
+        }
+        })
+-------------------------------------------------
+숙제2. 회원약관 박스를 거의 끝까지 스크롤하면 alert를 띄워줍시다.
+div의 스크롤바 내릴 양=div의 실제높이
+※일반 div박스에 window를 설정할 수 없다.
+
+<div class="lorem" style="width: 200px; height: 100px; overflow-y: scroll">
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fuga officiis reprehenderit iste totam mollitia eaque consequatur, accusantium in aut itaque neque vel eos facilis natus velit hic inventore rem tenetur.
+</div>
+
+$('.lorem').on('scroll', function() {
+  var 스크롤양 = document.querySelector('.lorem').scrollTop;
+  var 실제높이 = document.querySelector('.lorem').scrollHeight;
+  var 눈에보이는div높이 = document.querySelector('.lorem').clientHeight;
+
+  if(스크롤양 + 눈에보이는div높이 > 실제높이 -2) {
+      alert('다읽음')
+	}
+  console.log(눈에보이는div높이, 스크롤양, 실제높이);
+        })
+스크롤바를 끝까지 내려도 실제 높이와 일치하진 않는다
+이유는 스크롤탑의 특징 때문이다. 스크롤바 내린 거리가 보여지는 화면을 제외한 값
+따라서 div의 스크롤바 내릴 양+눈에보이는div높이y값 =div의 실제높이
+눈에 보이는 div값이 완벽하지 않으므로 실제높이에서 -2정도로 빼준다.
+※주의★이벤트 리스너는 약 1초에 60번정도 사용이 되다 보니까, alert창이 여러번 뜬다
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+♣스크롤 이벤트 숙제 해설 & 페이지 스크롤 응용
+//현재 페이지 로드 완료시 실행해야 정확. body태그 끝나기 전에 넣기.
+document.documentElement는 document.querySelector('html').랑 같은말
+
+document.querySelector('html').scrollTop;  //현재 웹페이지 스크롤양
+document.querySelector('html').scrollHeight; //현재 웹페이지 실제높이
+document.querySelector('html').clientHeight; //현재 웹페이지 보이는 높이임
+
+페이지 스크롤 기능들. 배운점:
+1. 스크롤바 조작할 때 마다 코드실행가능하구나
+2. 박스의 숨겨진 실제 높이도 구할 수 있구나 
+3. 스크롤내린 양도 구할 수 있군
+문법은 필요할 때 찾아쓰면 됩니다
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+♣탭기능 만들며 배우는 for 반복문
+[detail.html 파일과 tab.js 파일 보기]
+※박스 보여줄때 show클래스명 쓰면 편함
+※ html의 버튼의 클래스명은 모두 같다. 보여줄 div박스 클래스명이 같다
+
+버튼 0 누르면
+- 모든 버튼에 붙은 오랜지명 클래스 제거
+- 버튼0에 orange클래스명 추가
+- 모든 div에 붙은 show클래스명 제거
+- div0에 show클래스명 추가
+
+$('.tab-button').on('click', function() {...
+이렇게 하면 버튼3개를 다찾아버림.아무 버튼이나 눌러도 코드실행해 줄듯.
+
+$('.tab-button').eq(0).on('click', function(){ })
+.eq(n)쓰면 몇번째 라고 하나씩 지정 가능.
+
+★정답 1=
+$(".tab-button").eq(0).on("click", function () {
+    $(".tab-button").removeClass("orange");
+    $(".tab-button").eq(0).addClass("orange");
+    $(".tab-content").removeClass("show");
+    $(".tab-content").eq(0).addClass("show");
+  });
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+♣탭기능 만들며 배우는 for 반복문2
+[detail.html 파일과 tab.js 파일 보기]
+자주쓰는 셀렉터 변수에 넣어 쓰자.
+for(let i=0; i<3; i++) i가 0부터 시작하고, 반복하고 1씩 더하기. 2번까지 반복
+★★for (횟수){ 복붙할 코드 }
+
+★정답=
+for (let i = 0; i < 3; i++) {
+  $(".tab-button").eq(i).on("click", function () {
+      $(".tab-button").removeClass("orange");
+      $(".tab-button").eq(i).addClass("orange");
+      $(".tab-content").removeClass("show");
+      $(".tab-content").eq(i).addClass("show");
+    });
+}
+
+★★var 변수 말고 let으로 써야 반복문을 정확히 사용 가능
+for 안에서 var i = 0 쓰면
+- var 변수는 범위가 function입니다.
+- var i 들어있는 포스트잇은 for 바깥에 생성됩니다. 
+
+for 안에서 let i = 0 쓰면
+-let 변수는 범위가 { } 입니다.
+- let i 들어있는 포스트잇은 for 안쪽에 3개 생성됩니다.
+그리고 컴퓨터는 변수가져다쓸 때 가까운거 가져다 쓰려고합니다.
+
+
