@@ -1,38 +1,97 @@
 코딩애플 JavaScript 입문과 Level 3-1
 
 ♣Array 와 Object 자료형
+[Array와 object ~ 문자사이에 변수넣기.html 파일보기]
+셀렉터로 상품명 찾아서 innerHTML = car하면 될듯
+var car = "소나타";
+var carPrice = 50000;
+var carColor = "white";
+이렇게 말고
+-------------------------------------
+<array 자료형>
+var car = ["소나타", 50000, "white"];
+Array은 변수 하나에 여러자료가 저장 가능.
+엑셀이랑 똑같은 자료형이라고 생각하면 됨. 
+Array 출력 console.log(car[1]);
+★★Array 추가/수정(오른쪽에 있는걸 왼쪽에 저장) car[0] = "아반떼";
 
+array 자료간 정렬 방법   car.sort();  숫자,영어,한글 순서(가나다순)
+---------------------------------------------------------
+<Object 자료형> = 중괄호.용도는 array 와 같다.
+var car2 = {name : '소나타', price : 50000}; 
+{이름1 : 자료1, 이름2: 자료2.... }; 이름을 붙이는 장점
+자료 이름을 key   자료를 value 라고 부른다(key:value형태로 저장)
+★★Object 추가/수정 방식1   car2.price = 60000;
+Object 출력 방식1   console.log(car2["name"]); 
+Object 출력 방식2   console.log(car2.price);
 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 ♣약간 복잡한 Array & Object 데이터바인딩
+[Array와 object ~ 문자사이에 변수넣기.html 파일보기]
+상품명, 가격 html에 보여주기:
+var car2 = { name: "소나타", price: 50000 };
+document.querySelector(".car-title").innerHTML = car2["name"];
+document.querySelector(".car-price").innerHTML = car2.price;
 
+object 안에 아무거나 다 넣을 수 있음. object, array넣기도 가능
+var car2 = { name: "소나타", price: [50000, 3000, 4000] };
+복잡하게 생긴 array, object자료 다룰 땐 출력해보고 시작 기호도 확인하면 됨
+★★document.querySelector(".car-price").innerHTML = car2.price[1];
+------------------------------------------
+실제 웹서비스 개발할 땐 2개 방식:
+1. 서버에서 html을 미리 완성해서 고객에게 보내줌 
+서버가 html 다만들어야해서 서버가 귀찮
+이걸 server-side rendering 이라고 합니다.
+
+2. 서버가 비어있는 html과 데이터만 보내줌 
+그리고 자바스크립트를 이용해서 고객 브라우저안에서 html을 완성합니다. 
+서버가 편함.둘다 장단점.
+이걸 client-side rendering 이라고 합니다. 
+
+요즘은 2번이 유행이라 우리도 데이터를 서버에서 가져와서
+데이터바인딩하는 방법을 배우고 있는 것
+데이터바인딩하는 문법이 너무 길고 복잡하기 때문에
+작은 사이트는 쌩 자바스크립트 써도 커버가능한데 
+큰거 만들 땐 사람들이 라이브러리 설치해서 쓰는 것
+※jQuery, React, Vue 이런거 사용하면 코드가 짧아집니다.
+------------------------------------------
+오늘의 숙제 :
+list.html 만들고 하단 코드를 복사붙여넣기합니다.
+그럼 상품 3개를 진열할 수 있는 카드레이아웃이 나옵니다. (bootstrap 필요) 
+products 변수안에 상품데이터도 준비되어있는데
+자바스크립트를 열심히 짜서 3개의 상품 제목, 가격을 html에 전부 꽂아넣어오십시오.
+var products = [
+  { id: 0, price: 70000, title: "Blossom Dress" },
+  { id: 1, price: 50000, title: "Springfield Shirt" },
+  { id: 2, price: 60000, title: "Black Monastery" },
+];
 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 ♣데이터바인딩 숙제 & 문자중간에 변수넣는 법
+[Array와 object ~ 문자사이에 변수넣기.html 파일보기]
+★★querySelectorAll.(".card-body h5") 에서 띄어쓰기로 자식요소 선택
+숙제:
+console.log(products); 출력시 [{ }, { }, { }] 나옴.시작 기호만 잘봐.
+console.log(products[0]); 출력시 
+	{ id : 0, price : 70000, title : 'Blossom Dress' } 
+console.log(products[0]["title"]); //Blossom Dress출력.
+console.log(products[0].title); //Blossom Dress출력.
 
-ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-♣Select 인풋 다루기
+★정답:
+document.querySelectorAll(".card-body h5")[0].innerHTML = products[0].title;
+document.querySelectorAll(".card-body p")[0].innerHTML = products[0].price;
 
-ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-♣Select 2 : 자바스크립트로 html 생성하는 법
+★★value이 무엇인지 좀더 명시적인 정답:
+document.querySelectorAll('.card-body p')[0].innerHTML = '가격 : ' + products[0].price;
+document.querySelectorAll('.card-body p')[1].innerHTML = '가격 : ' + products[1].price;
+★★쿼리 버젼:
+$(".card-body h5").eq(0).html(products[0].title);
+$(".card-body p").eq(0).html("가격 : " + products[0].price);
+-------------------------------------------
+<문자 중간에 변수 쉽게 넣기>
+var a = '안녕';
+'문자문자' 이 사이에 문자넣기
 
-ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-♣Select 3 : forEach, for in 반복문
+★'문자' + a + '문자';  //이렇게 해도되고
+★문자안에서 엔터키 치면 안됨.
 
-ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-♣array, for 반복문 실력향상 과제
-
-ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-♣Ajax 1 : 개념정리
-
-ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-♣Ajax 2 : 상품 더보기 버튼 만들기
-♣array에 자주 쓰는 sort, map, filter 함수
-♣sort, map, filter 상품정렬기능 숙제
-♣DOM이라는 용어 개념정리 & load 이벤트
-♣장바구니 기능과 localStorage
-♣장바구니 기능과 localStorage 숙제
-♣position : sticky 활용하기
-♣스크롤 위치에 따라 변하는 애니메이션 : Apple Music UI 만들기
-♣캐러셀에 스와이프 기능 만들기
-♣캐러셀에 스와이프 기능 만들기 숙제 & 터치이벤트
-♣간혹 쓰는 Switch 문법
-♣(실전) 웹개발 기능대회 예제
+★★console.log(`문자${a}문자`);  //문자안녕문자 출력
+★★``안에 엔터키 쳐도 됨.
