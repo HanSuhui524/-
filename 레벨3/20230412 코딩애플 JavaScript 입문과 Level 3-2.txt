@@ -1,6 +1,7 @@
 코딩애플 JavaScript 입문과 Level 3-2
 
 ♣Select 인풋 다루기
+[tab.js 파일 보기]
 선택바에서 셔츠 선택하면 사이즈선택바 나오게 하기. 즉,
 if(유저가 선택한게 == 셔츠면) {
   form-hide 떼주세요
@@ -20,33 +21,221 @@ $(".form-select").eq(0).on("input", function () {
     }
   });
 --------↓↓↓↓↓↓------------------------
-모자 선택하면 둘째 select 사라지게 하기.
+모자 선택하면 둘째 select 사라지게 하기+ ㅇㅋ
 코드를 줄일 수 있는 부분?
+$(".form-select").eq(0).on("input", function (e) {
+    var 상품선택 = e.currentTarget.value;   // ★★★  e.currentTarget에 대해 더 공부
+    var 상품선택 = this.value;// ★★★  e.currentTarget는 this.value;와 같다
+    // ★★★ 윗줄과 같은 말! var 상품선택 = $('.form-select').eq(0).val;
+
+    if (상품선택 == "셔츠") {
+      $(".form-select").eq(1).removeClass("form-hide");
+    } else {
+      $(".form-select").eq(1).addClass("form-hide");
+    }
+  });
 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 ♣Select 2 : 자바스크립트로 html 생성하는 법
-
+[tab.js 파일 보기]
+★★자바스크립트로 html 생성법1>
+var a = document.createElement("p"); //★★js로 p태그 넣기.
+a.innerHTML = "p태그안에넣기"; //★★p태그 안에 내용.
+document.querySelector("#test").appendChild(a); //★★★p태그 어디넣는지.
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+★★자바스크립트로 html 생성법2>
+var 템플릿 = '<p>안녕</p>';
+document.querySelector('#test').insertAdjacentHTML('beforeend',템플릿);
+insertAdjacentHTML ★★이 요소 안에 이 html을 '추가하세요'란 뜻
+★//어디에? 맨밑. 'beforeend'에!! 그 옆에 내용
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+★★자바스크립트로 html 생성법3> 위에꺼 제이쿼리 버젼
+var 템플릿 = '<p>안녕</p>';
+$("#test").append(템플릿); // ★★append는'추가하세요'란 뜻
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+★★자바스크립트로 html 생성법4> 추가말고 다 갈아 치우기
+var 템플릿 = '<p>안녕</p>';
+document.querySelector("#test").innerHTML = 템플릿;
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+★★자바스크립트로 html 생성법5> 추가말고 다 갈아 치우기-
+var 템플릿 = '<p>안녕</p>';
+$("#test").html(템플릿);
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+★★자바스크립트로 html 생성법6> 추가말고 다 갈아 치우기-
+$(".form-select").eq(0).on("input", function () {
+    var 상품선택 = this.value; // ★★★  e.currentTarget는 this와 같다
+    if (상품선택 == "셔츠") {
+      $(".form-select").eq(1).removeClass("form-hide");
+    } 
+//
+else if (value == "바지") {
+      $(".form-select").eq(1).removeClass("form-hide");
+      $(".form-select").eq(1).html("");  //★★html 안에 내용 다 비우기.
+      var 템플릿 = `<option>28</option><option>30</option>`;
+      $(".form-select").eq(1).append(템플릿); //★★템플릿 추가
 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 ♣Select 3 : forEach, for in 반복문
+[tab.js 파일 보기]
+★매일 html을 수정 할 순 없다. 자바스크립트로 html을 생성해야한다!
+
+var pants = [28, 30, 32];
+$(".form-select")
+  .eq(0)
+  .on("input", function () {
+    var 상품선택 = this.value;
+    if (상품선택 == "셔츠") {
+      $(".form-select").eq(1).removeClass("form-hide");
+    } else if (상품선택 == "바지") {
+      $(".form-select").eq(1).removeClass("form-hide");
+      $(".form-select").eq(1).html("");
+
+     ★ for (var i=0; i< pants.length; i++) {
+     ★옵션태그 생성해 주쇼
+      }
+    }
+  });
+★★array에 붙일 수 있는 forEach 반복문
+      pants.forEach(function(){
+        pants데이터 갯수만큼 <Option>생성해주셈
+      });
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+var pants = [28, 30, 32, 34];
+
+$(".form-select").eq(0).on("input", function () {
+    var 상품선택 = this.value;
+    if (상품선택 == "셔츠") {
+      $(".form-select").eq(1).removeClass("form-hide");
+    } else if (상품선택 == "바지") {
+      $(".form-select").eq(1).removeClass("form-hide");
+      $(".form-select").eq(1).html("");
+
+ ★★pants.forEach(function(a){ 
+        // 함수 ()괄호 안에 a라는 아무 파라미터 넣으면
+        //pants안에 있던 파라미터 됨.a는 1회 복붙시 28,2회때 30, 3회때 32, 4회때 32가 된다
+        console.log(a); // 28, 30, 32, 34 각각 나옴.
+        $(".form-select").eq(1).append(`<option>${a}</option>`); //★★백팁 작은따옴표!!
+      });
+    }
+  });
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+★forEach안에 파라미터 2개 생성 가능.
+첫째는  array안의 데이터
+둘째는 0부터 1씩 증가하는 정수.
+      pants.forEach(function(a , i){ 
+        //  a라는 아무 파라미터 넣으면 pants안에 있던 파라미터 됨.a는 1회 복붙시 28,2회때 30, 3회때 32, 4회때 32가 된다
+        console.log(a); // 28, 30, 32, 34 각각 나옴.
+        $(".form-select").eq(1).append(`<option>${i}</option>`); //백팁 작은따옴표!!
+      });
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+★★object자료 갯수만큼 반복문 돌릴려면?  for in 문법
+  var obj = {name : 'han', age: 34}
+  for(var key in obj) {
+    console.log(5); // key 갯수(2개) 만큼, 5를 반복해줌.
+    console.log(key); // 안에 있는 key데이터를 출력해줌. name 출력, age 출력
+    console.log(obj[key]); // value값 출력해줌. han 출력, 34출력
+  }
+★반복문의 용도:
+1. 코드 반복
+2. array, object 데이터 전부 꺼낼 때
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+★★★  function(a){ } 그냥 함수와 arrow function 화살표 함수 차이점
+  function(a){ }
+  (a) =>{} 이 둘은 같은 함수로 인정되는 arrow function.
+
+그러나 둘은 완벽히 같은 함수는 아님
+차이점 하나있는데 this.value;  디스값이 달라질 수 있다.
+  function 안에서 쓰면 this가 알맞게 재정의 됨.  e.currentTarget와 같은 의미로 쓰임
+  arrow function을 쓰면 함수 밖에 잇는 this를 가져다가 씀.
 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 ♣array, for 반복문 실력향상 과제
+[homework.js 파일 보기]
+Q. Array에서 철수라는 자료를 찾고 싶습니다
+var 출석부 = ['흥민', '영희', '철수', '재석'];
+function 이름찾기(){
+  //여기다 코드 짜십쇼 
+}
+동작 예시)
+이름찾기('철수'); 라고 쓰면 콘솔창에 '있어요'라는 글자가 떠야합니다.
+이름찾기('명수'); 라고 쓰면 콘솔창에 아무 글자도 뜨지 않아야합니다.
+(조건) 이상한데서 찾아온 find, indexOf 같은 자바스크립트 기본함수들 사용금지 
 
-ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-♣Ajax 1 : 개념정리
+★★정답 :
+function 이름찾기(name){
+  for (var i = 0; i < 4; i++) {
+    if ( name == 출석부[i]) {
+      console.log('있어요')
+    }
+    return 이름찾기 //이거 없으면 있어요 2번반복함.
+  }
+}
+이름찾기('철수');
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+Q. 갑자기 구구단을 콘솔창에 출력하고 싶습니다.
+구구단을 2단부터 9단까지 콘솔창에 출력
 
-ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-♣Ajax 2 : 상품 더보기 버튼 만들기
+오답:
+function 구구단(n) {
+    for(var i=2; i<10; i++) {
+        for (var a=1; a<10; a++) {
+            console.log(`${n}` + 'x' +`${a}`+ '=' + (n*a));
+        }
+    }
+}
+뭔가 반복문 써야할거같아서 for 반복문 적어놓고 고민하는거같은데 
+그건 천재들이나 하는거지 우리같은 일반인은 for 부터 적으면 90% 확률로 실패합니다.
+반복문은 비슷한 코드 축약할 때 쓰면 됩니다.
+그리고 전체를 어떻게 구현할지 생각하려하지말고
+가장 쉬운거 하나만 먼저 구현해보면 쉽습니다. 그냥 2단만 출력해봅시다. 
 
-ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-♣array에 자주 쓰는 sort, map, filter 함수
+★정답 :
+for (let k = 2; k < 10; k++) {
+    for (let i = 1; i < 10; i++) {
+        console.log(`${k}` + 'x' +`${i}`+ '=' + (k*i));
+    }
+  }
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+Q. 평균점수 계산기 만들기 
+어떤 함수에 
+기존 모의고사 성적들을 array 자료에 전부 담아 첫 파라미터로 입력하고 
+이번 11월 모의고사 성적을 둘 째 파라미터로 입력하면  
+11월 성적이 기존 성적들의 평균에 비해 얼마나 우수한지 결과를 알려주고 싶습니다. 
+어떻게 함수를 만들면 될까요?
 
-ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-♣sort, map, filter 상품정렬기능 숙제
-♣DOM이라는 용어 개념정리 & load 이벤트
-♣장바구니 기능과 localStorage
-♣장바구니 기능과 localStorage 숙제
-♣position : sticky 활용하기
-♣스크롤 위치에 따라 변하는 애니메이션 : Apple Music UI 만들기
-♣캐러셀에 스와이프 기능 만들기
-♣캐러셀에 스와이프 기능 만들기 숙제 & 터치이벤트
-♣간혹 쓰는 Switch 문법
-♣(실전) 웹개발 기능대회 예제
+동작예시 :
+함수([10, 20, 30, 40, 50], 40) 이렇게 쓰면 콘솔창에 "평균보다 10점이 올랐네요"가 떠야합니다. (평균이 30이니까)
+함수([40, 40, 40], 20) 이렇게 쓰면 콘솔창에 "평균보다 20점이 떨어졌네요 재수추천"이 떠야합니다. (평균이 40이니까)
+
+function 함수(arr, b){
+  arr 안에 있는 숫자들 평균내기
+  그걸 b랑 비교해서 b가 더 크면 console.log('올랐네요')
+  b가 더 작으면 console.log('재수추천')
+}
+
+다 어떻게 더하냐고요? 
+var result = 0; 이런거 만들고 
+result = result + arr[0];
+result = result + arr[1];
+result = result + arr[2];
+
+계속 적으면 되는것이지 또 이상한 고민하고 계셨습니까 
+길게 적는거 싫으면 반복문 같은거 써도 될듯요 
+★정답 :
+function 함수(arr, b){
+    var result = 0;
+  
+    for ( let i = 0; i < arr.length; i++ ) {
+      result = result + arr[i]
+    }
+    console.log(result); //이걸 입력한 성적 갯수 (arr.length)로 나눠
+    
+    if (result/arr.length < b) {
+      console.log('올랐네요');
+    } else {
+      console.log('같거나 떨어졌네요 재수추천')
+    }
+  }
+  
+  함수([2,3,4], 10);  //올랐네요 
+
+
+
+

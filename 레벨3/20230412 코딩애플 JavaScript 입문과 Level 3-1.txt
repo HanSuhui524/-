@@ -7,8 +7,11 @@ var car = "소나타";
 var carPrice = 50000;
 var carColor = "white";
 이렇게 말고
--------------------------------------
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
 <array 자료형>
+[Array와 object ~ 문자사이에 변수넣기.html 파일보기]
+[card.js 파일 참조]
+
 var car = ["소나타", 50000, "white"];
 Array은 변수 하나에 여러자료가 저장 가능.
 엑셀이랑 똑같은 자료형이라고 생각하면 됨. 
@@ -16,7 +19,7 @@ Array 출력 console.log(car[1]);
 ★★Array 추가/수정(오른쪽에 있는걸 왼쪽에 저장) car[0] = "아반떼";
 
 array 자료간 정렬 방법   car.sort();  숫자,영어,한글 순서(가나다순)
----------------------------------------------------------
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
 <Object 자료형> = 중괄호.용도는 array 와 같다.
 var car2 = {name : '소나타', price : 50000}; 
 {이름1 : 자료1, 이름2: 자료2.... }; 이름을 붙이는 장점
@@ -27,6 +30,8 @@ Object 출력 방식2   console.log(car2.price);
 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 ♣약간 복잡한 Array & Object 데이터바인딩
 [Array와 object ~ 문자사이에 변수넣기.html 파일보기]
+[card.js 파일 참조]
+
 상품명, 가격 html에 보여주기:
 var car2 = { name: "소나타", price: 50000 };
 document.querySelector(".car-title").innerHTML = car2["name"];
@@ -36,7 +41,7 @@ object 안에 아무거나 다 넣을 수 있음. object, array넣기도 가능
 var car2 = { name: "소나타", price: [50000, 3000, 4000] };
 복잡하게 생긴 array, object자료 다룰 땐 출력해보고 시작 기호도 확인하면 됨
 ★★document.querySelector(".car-price").innerHTML = car2.price[1];
-------------------------------------------
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
 실제 웹서비스 개발할 땐 2개 방식:
 1. 서버에서 html을 미리 완성해서 고객에게 보내줌 
 서버가 html 다만들어야해서 서버가 귀찮
@@ -53,8 +58,10 @@ var car2 = { name: "소나타", price: [50000, 3000, 4000] };
 작은 사이트는 쌩 자바스크립트 써도 커버가능한데 
 큰거 만들 땐 사람들이 라이브러리 설치해서 쓰는 것
 ※jQuery, React, Vue 이런거 사용하면 코드가 짧아집니다.
-------------------------------------------
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
 오늘의 숙제 :
+[Array와 object ~ 문자사이에 변수넣기.html 파일보기]
+[card.js 파일 참조]
 list.html 만들고 하단 코드를 복사붙여넣기합니다.
 그럼 상품 3개를 진열할 수 있는 카드레이아웃이 나옵니다. (bootstrap 필요) 
 products 변수안에 상품데이터도 준비되어있는데
@@ -66,6 +73,8 @@ var products = [
 ];
 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 ♣데이터바인딩 숙제 & 문자중간에 변수넣는 법
+[Array와 object ~ 문자사이에 변수넣기.html 파일보기]
+[card.js 파일 참조]
 [Array와 object ~ 문자사이에 변수넣기.html 파일보기]
 ★★querySelectorAll.(".card-body h5") 에서 띄어쓰기로 자식요소 선택
 숙제:
@@ -85,7 +94,7 @@ document.querySelectorAll('.card-body p')[1].innerHTML = '가격 : ' + products[
 ★★쿼리 버젼:
 $(".card-body h5").eq(0).html(products[0].title);
 $(".card-body p").eq(0).html("가격 : " + products[0].price);
--------------------------------------------
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
 <문자 중간에 변수 쉽게 넣기>
 var a = '안녕';
 '문자문자' 이 사이에 문자넣기
@@ -93,5 +102,5 @@ var a = '안녕';
 ★'문자' + a + '문자';  //이렇게 해도되고
 ★문자안에서 엔터키 치면 안됨.
 
-★★console.log(`문자${a}문자`);  //문자안녕문자 출력
+★★★★console.log(`문자${a}문자`);  //문자안녕문자 출력
 ★★``안에 엔터키 쳐도 됨.

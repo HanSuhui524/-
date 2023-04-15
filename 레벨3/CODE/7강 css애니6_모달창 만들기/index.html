@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+            <h1>제목이다</h1>
+            <p>내용이다</p>
+            <p>내용이다</p>
+            <p>내용이다</p>
+            <p>내용이다</p>
+            <p>내용이다</p>
+            <button>수정하기</button> <br />
+            <button onclick="모달창열고닫기('block')">삭제하기</button>
+        
+        <div class="modalDiv">
+            <div class="bg" onclick="모달창열고닫기('none')"></div>
+            <div class="modal">
+                <p>정말 삭제하시겠습니까?</p>
+                <button onclick="모달창열고닫기('none')">취소</button>
+                <button>삭제</button>
+            </div>
+        </div>
+
+        <script>
+//             스크립트에서 ui바꾸는 3단계
+//             1.html/css ui를 만듭니다
+//             2.css로 숨긴다
+//             3.js로 다시 나타나게 함
+
+            // function 모달창열기() {
+            //     var 모달 = document.querySelector(".modalDiv");
+            //     모달.style.display = "block";
+            //     console.log(모달);
+            // };
+
+            // function 모달창닫기() {
+            //     var 모달 = document.querySelector(".modalDiv");
+            //     모달.style.display = "none";
+            // }
+
+            // 드라이한(반복문 없는) 코드로 변경
+            function 모달창열고닫기(인자) {
+                var 모달 = document.querySelector(".modalDiv");
+                모달.style.display = 인자;
+            }
+        </script>
+    </div>
+</body>
+</html>

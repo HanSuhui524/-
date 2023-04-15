@@ -1,0 +1,206 @@
+코딩애플 JavaScript 입문과 Level 3-4
+
+♣array에 자주 쓰는 sort, map, filter 함수
+[Ajax1 개념정리.html 파일보기]
+[ajax.js 파일 참조]
+오늘의 숙제 :
+1. "상품명 다나가순 정렬" 버튼과 기능을 만들어오십시오.
+누르면 상품이 '다나가' 순으로 정렬되어야합니다.
+2. "6만원 이하 상품보기" 버튼과 기능을 만들어오십시오. 
+누르면 6만원 이하 상품만 보여야합니다. 
+(더보기버튼과 함께 동작하는지 안하는지는 신경안써도 됩니다.)
+
+- products라는 변수안에 있던걸 가격순으로 정렬하고
+- 카드들 전부 싹 지우고 products 변수에 있던 순서대로 카드 다시 생성하면 
+완성일 것 같은데 array 정렬하는 법부터 알아봅시다.
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+★★ 문자 정렬은? 오름차순 정렬
+var 어레이 = [7,3,5,2,40];
+어레이.sort(); //  [2, 3, 40, 5, 7] 출력
+console.log(어레이); //
+★★ .sort()  
+var 어레이2 = ['다', '가', '나'];
+어레이2.sort(); //  ['가', '나', '다'] 출력
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ 
+★★ 문자 정렬은? 내림차순 정렬
+var 어레이2 = ['다', '가', '나'];
+어레이2.sort().reverse(); // ['다', '나', '가'] 출력
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ 
+★★ 숫자 정렬은? 오름차순 정렬
+var 어레이 = [7,3,5,2,40];
+어레이.sort(function(a,b){
+  return a - b
+});
+console.log(어레이); //  [2, 3, 5, 7, 40] 출력
+★★★★★★오름차순 숫자 정렬 원리:
+1. a, b는 array 안의 자료들입니다.
+2. return 오른쪽이 양수면 a를 오른쪽으로 정렬해줍니다.
+3. return 오른쪽이 음수면 b를 오른쪽으로 정렬해줍니다.
+4. 그리고 array 안의 자료들을 계속 뽑아서 a, b에 넣어줍니다. 
+★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ 
+★★ 숫자 정렬은? 내림차순 정렬
+var 어레이 = [7,3,5,2,40];
+어레이.sort(function(a,b){
+  return b - a
+});
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ 
+숙제) 버튼누르면 products를 가격순 정렬
+[ { }, { }, { } ] 안에 있는 { } 이것들을 가격 낮은순으로 정렬
+
+내꺼 오답:
+$('#we').click(function(){
+  products.price.sort(function(a,b){
+    return a - b
+  })
+})
+★정답:
+$('#price').click(function(){
+  products.sort(function(a, b){
+    return a.price - b.price 
+  });
+  console.log(products); 
+  })
+이렇게 .sort 뒤에 붙이는건 맞는데
+콜백함수 안의 식이 좀 달라져야할 것 같습니다. 
+왜냐면 products는 [ { }, { }, { } ] 이렇게 생겼습니다.
+그래서 a, b는 지금 { }, { } 이건데 object 두개를 a - b 이렇게 빼봤자 음수나 양수가 나오지 않습니다.
+
+그래서 { } - { } 이렇게 빼지 말고
+{ } 안에 있는 가격 - { } 안에 있는 가격 이렇게 빼보면 음수나 양수가 나오지 않을까요?
+그럼 이제 양수가 나오거나 하면 a를 오른쪽으로 보내거나 그래줄듯요 
+
+★최종 정답:
+$('#price').click(function(){
+  products.sort(function(a, b){
+    return a.price - b.price
+  });
+  $('.row').html('');
+
+  products.forEach((a, i)=>{
+    var 템플릿 = 
+    `<div class="col-sm-4">
+      <img src="https://via.placeholder.com/600" class="w-100">
+      <h5>${products[i].title}</h5>
+      <p>가격 : ${products[i].price}</p>
+    </div>`;
+    $('.row').append(템플릿)
+  })
+}); 
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ 
+★★array 자료 원하는 것만 필터하려면 .filter()
+★응용하면 6만원 이하 상품만 보여주기 버튼 가능.
+var 어레이3 = [7,3,5,2,40];
+어레이3.filter( function(a) {
+  return 조건식(어떤 자료를 남길건지.수식)
+});
+console.log(어레이3);
+
+★★변수로 싸준다.
+var 어레이3 = [7,3,5,2,40];
+var new어레이 = 어레이3.filter( function(a) {
+  return a < 4
+});
+console.log(new어레이); //3,2 출력
+★★
+1. a라고 작명한건 array 에 있던 데이터를 뜻하고
+2. return 우측에 변경될 수식같은걸 넣으면 됩니다. 
+3. 그리고 filter는 원본을 변형시키지 않는 고마운 함수기 때문에 새로운 변수에 담아
+  .sort()는 원본 변형함.  .filter()는 원본 변형 안함.
+
+★★
+sort 함수는 원본을 변형시켜버립니다. 
+원본을 변형시켜버리면 나중에 원본으로 되돌아갈 수 없으니까 귀찮아질 수 있어서 
+array/object 자료 조작시엔 원본을 따로 복사해두고 조작하는 경우도 있습니다. 
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ 
+★★array 자료 전부 변형하려면 .map()
+★응용하면 "달러 -> 원화로 변환하기" 이런 기능
+예를 들어 array 안의 숫자들을 전부 4를 곱해주고 싶으면 이렇게 코드짜면 됩니다.
+var 어레이 = [7,3,5,2,40];
+var new어레이1 = 어레이.map(function(a){
+  return a * 4
+}); 
+console.log(new어레이1);  // 출력하면 [28, 12, 20, 8, 160] 
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+♣sort, map, filter 상품정렬기능 숙제
+[Ajax1 개념정리.html 파일보기]
+[ajax.js 파일 참조]
+숙제1) 상품명 다나가순 정렬 버튼과 기능
+1.배열 정렬하고
+2. html 지우고
+3. html 생성 다시하면 됨.
+
+var 어레이 = ['가', '다', '나'];
+어레이.sort(function(a, b){
+  return 여기뭐써야함?
+});
+
+★★★★★★오름차순 숫자 정렬 원리: (가>나>다 이런식이면 문자에도 적용가능)
+1. a, b는 array 안의 자료들입니다.
+2. return 오른쪽이 양수면 a를 오른쪽으로 정렬해줍니다.
+3. return 오른쪽이 음수면 b를 오른쪽으로 정렬해줍니다.
+4. 그리고 array 안의 자료들을 계속 뽑아서 a, b에 넣어줍니다. 
+★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+★★이런식으로 문자 역순:
+var 어레이4 = ['가', '다', '나'];
+어레이4.sort(function(a, b){
+  if (a < b) {
+    return 1 
+  } else {
+    return -1
+  }
+});
+console.log(어레이4)
+
+★★정답:  // 타이핑 익숙해 져야해...
+$('#we').click(function(){
+  products.sort(function(a, b){
+    if (a.title < b.title) {  //제목들을 비교
+      return 1
+    } else {
+      return -1
+    }
+  });
+  $('.row').html('');
+  products.forEach((a, i)=>{
+    var 템플릿 = 
+    `<div class="col-sm-4">
+      <img src="https://via.placeholder.com/600" class="w-100">
+      <h5>${products[i].title}</h5>
+      <p>가격 : ${products[i].price}</p>
+    </div>`;
+    $('.row').append(템플릿)
+  })
+  console.log(products)
+});
+
+위 코드에서 중요한건 return 우측에 뭘 집어넣냐는 건데 
+★★예를 들어서
+(1) a, b가 '가', '다' 일 경우 return 우측에 양수가 들어가야 다나가순 정렬이 됩니다. 
+(2) a, b가 '다', '나' 일 경우 return 우측에 음수가 들어가야 다나가순 정렬이 됩니다. 
+(3) a, b가 '가', '나' 일 경우 return 우측에 양수가 들어가야 다나가순 정렬이 됩니다. 
+....
+★★이렇게 대충 하나하나 대입해서 따져보면 규칙같은게 눈에 보이는군요. 
+a < b 일 경우 return 우측에 양수가 들어가면 되고 
+a > b 일 경우 return 우측에 음수가 들어가면 됩니다. 
+(자바스크립트는 문자끼리 부등호비교가 가능합니다. ㄱ보다 ㅎ 이게 더 큽니다.)
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ    ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ 
+숙제2) 필터 버튼 누르면 6만원 이하 상품만 보기. 6분 55초~
+★★정답:
+$('#filter').click(function(){
+  var new필터 = products.filter(function(a) {
+    return a.price <= 60000
+  })
+  console.log(new필터);
+  
+  $('.row').html('');
+  new필터.forEach((a,i)=>{
+    var 템플릿 =
+        `<div class="col-sm-4">
+      <img src="https://via.placeholder.com/600" class="w-100">
+      <h5>${new필터[i].title}</h5>
+      <p>가격 : ${new필터[i].price}</p>
+    </div>`;
+    $('.row').append(템플릿)
+  })
+    })

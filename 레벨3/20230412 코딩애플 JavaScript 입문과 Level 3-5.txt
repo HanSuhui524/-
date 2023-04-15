@@ -1,0 +1,162 @@
+코딩애플 JavaScript 입문과 Level 3-5
+
+♣DOM이라는 용어 개념정리 & load 이벤트
+1. DOM
+Document Object Model 이라는 뜻
+자바스크립트는 HTML 조작에 특화된 언어
+자바스크립트가 어떻게 HTML을 조작할 수 있는지 원리를 생각
+ HTML과 자바스크립트는 다른 언어
+자바스크립트에선 <p></p> 이런 html을 직접 해석하고 조작 불가능.
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+자바스크립트가 HTML 조작을 하기 위해선
+★HTML을 자바스크립트가 해석할 수 있는 문법으로 변환
+
+HTML을 자바스크립트가 좋아하는 array 혹은 object 자료형에 담아!!
+브라우저는 HTML 페이지를 열어줄 때
+HTML을 자바스크립트로 쉽게 찾고 바꾸기 위해 object와 비슷한 자료형에 담음.
+
+<div style="color : red">안녕하세요</div>
+이거를
+var document = {
+  div1 : {
+    style : {color : 'red'}
+    innerHTML : '안녕하세요'
+  }
+} 이렇게  object 자료에 정리.
+이제 document.div1.innerHTML = '안녕' 이렇게 자바스크립트를 짜면 HTML 조작이 가능
+
+★위 변수를 document object라고 부릅니다.
+간지나게 + model이라고 붙여서 Document Object Model이라고 합니다.
+요약하자면 자바스크립트가 HTML에 대한 정보들 (id, class, name, style, innerHTML 등)을
+object 자료로 정리한걸 DOM이라고 부릅니다. 
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+2. 브라우저는 HTML 문서를 위에서 부터 읽으며 DOM을 생성
+브라우저는 HTML문서를 위에서 부터 차례로 읽어내려갑니다.
+읽을 때 마다 HTML을 발견하면 DOM에 추가해줍니다. 
+그래서 이걸 알면 왜 하단 코드가 에러가 나는지도 알 수 있음.
+예제) 스크립트 태그 다음에 div 태그가 왔다..
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+3. 혹은 자바스크립트 실행을 약간 나중으로 미루는 방법도 있음
+★★HTML 전부 다 읽고 실행해주세요
+이 이벤트리스너들은 "HTML을 다 읽어들였는지"를 알려주는 이벤트리스너
+
+$(document).ready(function(){ 실행할 코드 })
+document.addEventListener('DOMContentLoaded', function() { 실행할 코드 }) 
+이러면 아까 예제같은 문제가 발생하지 않습니다.
+
+하지만 요즘은 그냥 자바스크립트를 <body>태그 끝나기 전에
+전부 작성하기 때문에 저런거 안써
+자바스크립트 위치를 내가 정할 수 없을 경우에만 유용한 방법임.
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+4. load 이벤트리스너
+load 라는 이벤트리스너를 사용하면 DOM 생성뿐만 아니라
+★이미지, css, js파일이 로드가 됐는지도 체크가능
+
+셀렉터로찾은이미지.addEventListener('load', function(){
+  //이미지 로드되면 실행할 코드 
+})
+근데 외부 자바스크립트 파일에 저걸 적어놓으면
+그 js 파일보다 이미지가 더 먼저 로드되는 경우도 있으니 이벤트 발생체크를 못할 수도 있다.
+  
+$(window).on('load', function(){
+  //document 안의 이미지, js 파일 포함 전부 로드가 되었을 경우 실행할 코드 
+});
+window.addEventListener('load', function(){
+  //document 안의 이미지, js 파일 포함 전부 로드가 되었을 경우 실행할 코드
+})
+window에 붙이셔도 됩니다.
+★document에 포함된 이미지, CSS파일 등 모든것이 로드가 되었는지 체크해줍니다. 
+ready 이런거랑 차이는 앞선 .ready()는 DOM 생성만 체크하는 함수인데,
+이것보다 약간 더 나아가서 모든 파일과 이미지의 로드상태를 체크한다고 보시면 되겠습니다.
+그래서 이거 써서 "이미지가 다 로드되면 사이트 보여주세요~" 이런 코드짜는 사람들이 있는데
+한국인이라면 오히려 속터짐
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+♣장바구니 기능과 localStorage
+[장바구니 기능과 localStorage.html파일]
+[local.js파일]
+구매버튼 누르면 장바구니 추가(실제 서비스면 서버로 보냈을듯)
+브라우저 안에 몰래 데이터 저장 가능.
+개발자도구-> 어플리케이션 ->좌측 스토리지에 localStorage
+좌측 스토리지(저장소)에 있는거 아무거나 골라서 저장 가능 하다. 
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+<localStorage와 sesseionStorage>
+이름:값 형태로 저장가능
+indexedDB구조화된 대용량데이터 저장시.
+localStorage와 sesseionStorage 열어보면 주소가 나옴.
+로컬스토리지 눌러보면 key랑 value형태로 저장할 수 있다는 걸 알 수있음.
+네모안에 작성. key 값은 name, age value값은 'han', 34 로 저장
+용량은 각각 5MB고 문자/숫자만 저장가능.
+
+<localStorage와 sesseionStorage 차이점>
+localStorage는 사이트 재접속해도 유지.
+sesseionStorage는 사이트 나가면 자동삭제
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+<★★localStorage 사용방법>
+  localStorage.setItem('이름', '수희') // key , value 저장하는 방법
+  localStorage.getItem('이름'); //출력 방법
+  console.log(localStorage.getItem('이름'));
+  localStorage.removeItem('이름'); //삭제 방법
+
+<★localStorage에 array, object 저장하기>
+  localStorage.setItem('num', [1,2,3]);
+  // setItem은 숫자를 강제로 문자로 변환해줌 '1,2,3'
+
+  var arr = [1,2,3];  
+  var newArr = JSON.stringify(arr);    //array, object를 JSON으로 바꾸면 저장 가능
+  localStorage.setItem('num', newArr);    //저장한거 개발자에서 확인
+  var 꺼낸거 = localStorage.getItem('num'); 
+   console.log(JSON.parse(꺼낸거)[0]);  // 1출력
+★★즉,
+array/object -> JSON 변환하고 싶으면 JSON.stringify()
+JSON -> array/object 변환하고 싶으면 JSON.parse()
+
+★로컬스토리지 데이터  수정?
+그런 문법은 없지만,복잡하다!
+1. 자료 꺼냄
+2. 꺼낸거 수정
+3. 다시 배열에 넣음
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+< sesseionStorage 저장하기>
+ localStorage부분에 이름만 세션스토리지로 바꾸면 된다는뎅...음...
+  var arr = [1,2,3];  
+  var newArr = JSON.stringify(arr);
+  //array, object를 JSON으로 바꾸면 저장 가능
+  sesseionStorage.setItem('num', newArr); //저장한거 개발자에서 확인
+  var 꺼낸거 =sesseionStorage.getItem('num');
+  console.log(JSON.parse(꺼낸거)[0]);
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+♣장바구니 기능과 localStorage 숙제
+1. 카드하단 구매버튼추가하고
+그거 누르면 누른 상품의 이름을 localStorage에 저장하기
+저장하는 형태는 자유지만 이렇게 array 안에 전부 저장해보는게 어떨까요.
+팁1) 내가 누른 요소의 형제요소(sibling)를 찾는 법을 알아야됨. 
+팁2) localStorage가 비어있을 때는 array를 추가하면 되겠지만 
+localStorage에 이미 뭐가 있을 때는 array를 수정해야합니다.
+
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ  
+2. cart.html 같은 파일 하나 만들어서 (장바구니 페이지)
+그 페이지 방문시 localStorage에 있던 상품명들을 꺼내서 전부 진열해서 보여주면 됩니다.
+디자인 신경쓸 필요없이 상품명들만 전부 잘 보이면 성공입니다. 
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+♣position : sticky 활용하기
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+♣스크롤 위치에 따라 변하는 애니메이션 : Apple Music UI 만들기
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+♣캐러셀에 스와이프 기능 만들기
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+♣캐러셀에 스와이프 기능 만들기 숙제 & 터치이벤트
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+♣간혹 쓰는 Switch 문법
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+♣(실전) 웹개발 기능대회 예제
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+♣웹개발 기능대회 예제 답안
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+♣모던 웹개발시 알아야할 것들

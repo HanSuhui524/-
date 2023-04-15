@@ -1,0 +1,41 @@
+body {
+    margin:20px;
+}
+
+.box {
+    width: 100px;
+    height: 100px;
+    background-image: url("./개발밍밍.jpg");
+    background-position: center;
+    background-size:cover;
+    overflow:hidden;
+    border: 1px solid lightgray;
+    border-radius: 14px;
+    position: relative;
+
+}
+
+.box-overloay {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 14px;
+    background-color: pink;
+    top:100px;
+    left:0;
+    transition: all 1s ease-in-out;
+}
+
+.box-overloay p {
+    margin: 0px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.box:hover .box-overloay {
+    top:0px;
+}

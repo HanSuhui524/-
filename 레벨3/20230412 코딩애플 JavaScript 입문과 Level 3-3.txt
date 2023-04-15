@@ -1,0 +1,203 @@
+코딩애플 JavaScript 입문과 Level 3-3
+
+♣Ajax 1 : 개념정리
+[Ajax1 개념정리.html 파일보기]
+[ajax.js 파일 참조]
+★Ajax는 서버와 데이터주고받는 법 중 하나인데 
+서버가 뭔지 모르면 아무리 ajax 문법 외워봤자 응용을 못하기 때문에
+서버에 대해 알아야되!
+
+★서버란?
+유저가 데이터달라고 요청을 하면 데이터를 보내주는 간단한 프로그램
+
+★서버에 데이터를 요청할 때는
+1. 어떤 데이터인지 (url로 잘 기재해야하고)
+2. 어떤 방법(메소드)으로 요청할지 결정해야 (GET/POST 등 잘 기재)
+데이터를 보내줍니다. 
+예를 들어서 쇼미더럭키짱이라는 네이버웹툰을 보고싶으면
+https://comic.naver.com/webtoon/list?titleId=783054 여기로 GET요청하면 보내줍니다.
+예를 들어서 독립일기라는 네이버웹툰을 보고싶으면
+https://comic.naver.com/webtoon/list?titleId=748105 여기로 GET요청하면 보내줍니다.
+
+★GET요청을 날리고 싶으면 가장 쉬운 방법은
+★★브라우저 주소창입니다.
+거기에 url 적으면 그 곳으로 GET요청을 날려줍니다.
+★POST요청을 날리고 싶으면
+★★<form action="요청할url" method="post"> 태그 이용하면 됩니다.
+그럼 폼이 전송되었을 때 POST요청을 날려줍니다. 
+근데 GET, POST 요청을 저렇게 날리면 단점이 뭐냐면 브라우저가 새로고침 됨.
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+★AJAX란? 
+새로고침 없이 서버에 GET, POST 요청하는, 
+데이터를 주고받을 수 있게 도와주는 간단한 브라우저 기능
+(그거 쓰면 새로고침 없이도 쇼핑몰 상품을 더 가져올 수도 있고
+새로고침 없이도 댓글을 서버로 전송할 수도 있고 
+그런 기능을 만들 수 있는 것임 )
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+★ ajax로 get 요청하는 방법:
+ $.get('https://codingapple1.github.io/hello.txt')
+  .done(function(data){   //★서버에 받아온 데이터는 (data)안에 있다.
+   console.log(data);
+  })
+★ ajax로 post 요청하는 방법:
+  $.post('url~~', {name : 'kim'})  // 이름:한을 보냄. 
+  .done(function(data){   //★서버에 받아온 데이터는 (data)안에 있다.
+   console.log(data);
+  })
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+★ajax 요청 실패시
+$.get('https://codingapple1.github.io/hello.txt')
+  .done(function(data){
+    console.log(data)
+  })
+  .fail(function(error){
+    console.log('실패함') // 에러관련 정보를 출력. 그거 보고 디버깅
+//404 이런 에러코드는 url 이 잘못되었다는 뜻
+  });
+★★done/fail 말고 then/catch 써도 됩니다. 
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+Q. 다음 url로 GET요청을 해서 가격정보를 가져와 콘솔창에 출력해보십시오.
+https://codingapple1.github.io/price.json 여기로 GET요청하면 오늘의 상품가격을 알려줍니다.
+콘솔창에 5000이 뜨면 성공이고 쉬우니 답은 없고 알아서 해봅시다.
+★정답:
+fetch('https://codingapple1.github.io/price.json')
+  .then(res => res.json())  .then(res => res.json()) // 받아온 json을 object로 바꿔주는 기능
+  .then(function(data){
+    console.log(data)
+  })
+  .catch(function(error){
+    console.log('실패함')
+  });
+
+fetch 함수는 Edge 브라우저 이상에서만 동작합니다.
+근데 코드가 한 줄 더 필요한 이유가 뭐냐면 
+서버와 데이터를 주고받을 때는 문자만 주고받을 수 있습니다.
+
+array, object 이런거 전송불가능 
+근데 아까 { price : 5000 } 이런 object 무리없이 받아왔죠?
+어떻게 한거냐면 object를 JSON으로 바꿔서 전송해줘서 그렇습니다.
+
+★array 아니면 object에 따옴표를 다 쳐서
+'{ "price" : 5000 }' 대충 이렇게 만들면 ★★JSON이라는 자료가 됩니다. 
+JSON은 문자로 인식하기 때문에 원하는 자료만 뽑기 어렵다.
+때문에 array/object 자료로 바꿔줘야 서버와 데이터주고받기가 가능합니다. 
+
+하지만 
+jQuery의 $.get() 이런건 JSON으로 자료가 도착하면 알아서 array/object 자료로 바꿔줍니다.
+기본함수 fetch() 이런건 JSON으로 자료가 도착하면 알아서 array/object 자료로 바꿔주지 않습니다.
+그래서 fetch() 로 가져온 결과를 array/object로 바꾸고 싶으면 res.json() 이런 코드 한 줄 추가하면 됩니다. 
+그게 귀찮으면 jQuery나 axios 이런 라이브러리 설치하면 ajax가 약간 더 간편해집니다.
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+숙제)
+자바스크립트를 이용해서 카드레이아웃을 3개 생성해오면 됩니다.
+var products 에 있던 데이터도 html에 잘 꽂혀있어야합니다.
+
+<div class="col-sm-4"> 저거 덩어리가 카드 1개입니다. 
+    <div class="container">
+      <div class="row">
+    
+          <!-- <div class="col-sm-4">
+            <img src="https://via.placeholder.com/600" class="w-100">
+            <h5>Card title</h5>
+            <p>가격 : 70000</p>
+          </div> -->
+    
+      </div>
+    </div> 
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+♣Ajax 2 : 상품 더보기 버튼 만들기
+[Ajax1 개념정리.html 파일보기]
+[ajax.js 파일 참조]
+★정답:
+products.forEach((a, i)=> {
+  var 템플릿 =
+  `
+  <div class="col-sm-4">
+  <img src="https://via.placeholder.com/600" class="w-100">
+  <h5>${products[i].title}</h5>
+  <p>가격 : ${products[i].price}</p>
+  </div>
+  `;
+  $('.row').append(템플릿);
+})
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+★더보기 버튼---상품 더보기 버튼누르면 상품3개 가져오기
+https://codingapple1.github.io/js/more1.json 여기로 GET요청하면 상품 3개 데이터를 보내줍니다.
+버튼누르면 상품데이터 가져와서 콘솔창에 출력
+★정답:
+$('#more').click(function(){
+  $.get('https://codingapple1.github.io/js/more1.json')
+  .done(function(data) {
+    console.log(data);
+
+    data.forEach((a, i)=>{
+      var 템플릿 =
+      `
+      <div class="col-sm-4">
+      <img src="https://via.placeholder.com/600" class="w-100">
+      <h5>${data[i].title}</h5>
+      <p>가격 : ${data[i].price}</p>
+      </div>
+      `;
+      $('.row').append(템플릿);
+    })
+  })
+}) //★★데이터가 몇개가 도착하든 받아온 데이터 수에 맞게 생성됨.
+
+ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ    ㅡ  ㅡ     ㅡ   ㅡ   
+숙제)
+1. 더보기버튼을 2번째 누르면 7,8,9번째 상품을 더 가져와서 html로 보여주십시오
+https://codingapple1.github.io/js/more2.json 여기로 GET요청하면 7,8,9번째 상품이 도착합니다.
+
+힌트는 유저가 더보기버튼을 몇 번 눌렀는지를 어디 기록: count 변수
+
+2. 유사한 코드가 발생하고 있습니다.
+지금 코드를 잘 보면 forEach() 반복문을 2번 쓴 것 같은데 
+이 코드들이 매우 유사해보입니다.
+함수나 그런걸로 축약해보는 연습도 해보면 좋을 것 같군요  =잉 몰라잉..
+
+힌트는 
+함수로 축약할 때 안에 미지의 변수같은게 있으면 파라미터로 바꾸는게 좋다고 했는데
+a, i 이런 변수는 이미 콜백함수에 의해 파라미터화가 되어있기 때문에 a, i는 신경안써도 될듯요
+정답 없음.
+★내가 쓴 정답:
+var count = 0;
+$('#more').click(function(){
+  count++;
+  if(count==1) {
+    $.get('https://codingapple1.github.io/js/more1.json')
+    .done(function(data) {
+      console.log(data);
+  
+      data.forEach((a, i)=>{
+        var 템플릿 =
+        `
+        <div class="col-sm-4">
+        <img src="https://via.placeholder.com/600" class="w-100">
+        <h5>${data[i].title}</h5>
+        <p>가격 : ${data[i].price}</p>
+        </div>
+        `;
+        $('.row').append(템플릿);
+      })
+    })
+  } else if(count ==2) {
+    $.get('https://codingapple1.github.io/js/more2.json')
+    .done(function(data) {
+      console.log(data);
+  
+      data.forEach((a, i)=>{
+        var 템플릿 =
+        `
+        <div class="col-sm-4">
+        <img src="https://via.placeholder.com/600" class="w-100">
+        <h5>${data[i].title}</h5>
+        <p>가격 : ${data[i].price}</p>
+        </div>
+        `;
+        $('.row').append(템플릿);
+        $('#more').remove();
+      })
+    })
+  }
+  })

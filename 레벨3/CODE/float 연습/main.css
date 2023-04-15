@@ -1,0 +1,42 @@
+
+.wrap {
+
+    position: absolute;
+    overflow: hidden;
+
+
+    width: 1050px;
+    height: 1093px;
+    top: 168px; 
+    border: 1px solid blue;
+}
+
+.contentBig {
+    /* box-sizing: border-box;
+    position: absolute; */
+    width: 502px;
+    height: 310px;
+    background: red;
+    border: 1px solid black;
+
+    float: left;
+    display: block;
+    margin: 8px;
+    padding: 0;
+}
+
+
+.contentSmall {
+    /* box-sizing: border-box;
+    position: absolute; */
+    width: 243px;
+    height: 310px;
+    background: green;
+    border: 1px solid black;
+
+    float: left;
+    display: block;
+    margin: 8px;
+
+
+}
